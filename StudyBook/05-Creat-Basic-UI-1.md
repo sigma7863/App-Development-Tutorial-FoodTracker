@@ -873,3 +873,18 @@ Xcode にはエディタを分割したり、エリアの表示を切り替え�
 Storyboard で UI のパーツを AutoLayout を使って複数の画面サイズに対応して配置できる
 Storyboard と ViewController を繋げて動的な処理を ViewController で実装できる
 UITextFieldDelegate のメソッドを実装すると Text Field からのイベントを受け取ることができる
+
+---
+## リンク
+
+[UILabel](https://developer.apple.com/documentation/uikit/uilabel)
+
+[UIButton](https://developer.apple.com/documentation/uikit/uibutton)
+
+[UIStackView](https://developer.apple.com/documentation/uikit/uistackview)
+
+[UITextFieldDelegate](https://developer.apple.com/documentation/uikit/uitextfielddelegate)
+
+[resignfirstresponder()](https://developer.apple.com/documentation/uikit/uiresponder/resignfirstresponder())
+
+[サポート - Xcode](https://developer.apple.com/jp/support/xcode/)
