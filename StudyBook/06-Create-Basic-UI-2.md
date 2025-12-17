@@ -947,3 +947,6 @@ UIImagePickerController を使用してフォトライブラリから画像を�
 [UIStackview](https://developer.apple.com/documentation/uikit/uistackview/)
 
 [init(frame:)](https://developer.apple.com/documentation/uikit/uiview/init(frame:))
+
+[Access Control](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/accesscontrol/)
+
