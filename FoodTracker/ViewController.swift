@@ -61,5 +61,24 @@ extension ViewController: UITextFieldDelegate {
 // MARK: UIImagePickerControllerDelegate+UINavigationControllerDelegate
 // ユーザが Image View をタップしたら、フォトライブラリから画像を選択できるようにする
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // ユーザが画像の選択をキャンセルした場合に呼ばれる
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        // ユーザーがキャンセルした場合はピッカーを閉じる。(Dismiss the picker if the user canceled.)
+        dismiss(animated: true, completion: nil)
+    }
     
+    // ユーザが画像を選択し終わった後に呼ばれる
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // 情報辞書には画像の複数の表現が含まれている可能性があります。(The info dictionary may contain multiple representations of the image.)
+        // 元の画像を使用してください。(You want to use the original.)
+        guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+          fatalError("Expected a dictionary containing an image, but was provided the following: \(info)") // アプリを強制終了させる
+        }
+        
+        // 選択した画像を表示するように photoImageView を設定する(Set photoImageView to display the selectedImage.)
+        photoImageView.image = selectedImage
+        
+        // ピッカーを閉じる(Dismiss the picker.)
+        dismiss(animated: true, completion: nil)
+    }
 }
