@@ -12,7 +12,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var mealNameLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
-    
+    @IBOutlet weak var ratingControl: RatingControl!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -39,9 +40,9 @@ class ViewController: UIViewController {
         
         present(imagePickerController, animated: true, completion: nil)
     }
-    @IBAction func setDefaultLabelText(_ sender: UIButton) {
-        mealNameLabel.text = "Default Text"
-    } // Swift は関数呼び出しの際は基本的に引数名を書かないといけないが、アンダースコアをつけることで省略できる
+    // @IBAction func setDefaultLabelText(_ sender: UIButton) {
+    //     mealNameLabel.text = "Default Text"
+    // } // Swift は関数呼び出しの際は基本的に引数名を書かないといけないが、アンダースコアをつけることで省略できる
 }
 
 // MARK: UITextFieldDelegate
@@ -66,7 +67,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         // ユーザーがキャンセルした場合はピッカーを閉じる。(Dismiss the picker if the user canceled.)
         dismiss(animated: true, completion: nil)
     }
-    
+
     // ユーザが画像を選択し終わった後に呼ばれる
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // 情報辞書には画像の複数の表現が含まれている可能性があります。(The info dictionary may contain multiple representations of the image.)
