@@ -26,5 +26,21 @@ struct FoodTrackerTests {
         #expect(positiveRatingMeal != nil)
     }
     
-    @Test 
+    // 否定的な評価または空の名前が渡されたときに、Meal 初期化子が nil を返すことを確認します。(Confirm that the Meal initializer returns nil when passed a negative rating or an empty name.)
+    @Test func testMealInitializationFails() {
+        // 初期化を失敗させる条件を記述
+        
+        // Negative rating
+        let negativeRatingMeal = Meal(name: "Negative", photo: nil, rating: -1)
+        #expect(negativeRatingMeal != nil)
+        
+        // Empty String
+        let emptyStringMeal = Meal(name: "", photo: nil, rating: 0)
+        #expect(emptyStringMeal != nil)
+        
+        // Rating exceeds maximum
+        let largeRatingMeal = Meal(name: "Large", photo: nil, rating: 6)
+        #expect(largeRatingMeal != nil)
+        
+    }
 }
