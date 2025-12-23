@@ -7,10 +7,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MealDetailViewController: UIViewController {
     // MARK: Properties
     @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var mealNameLabel: UILabel!
+    // @IBOutlet weak var mealNameLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var ratingControl: RatingControl!
 
@@ -46,7 +46,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: UITextFieldDelegate
-extension ViewController: UITextFieldDelegate {
+extension MealDetailViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
         textField.resignFirstResponder()
@@ -55,13 +55,13 @@ extension ViewController: UITextFieldDelegate {
         
     func textFieldDidEndEditing(_ textField: UITextField) {
         // ラベル(Meal Name)のテキストをテキストフィールドに入力されたテキストに変換
-        mealNameLabel.text = textField.text
+        // mealNameLabel.text = textField.text
     }
 }
 
 // MARK: UIImagePickerControllerDelegate+UINavigationControllerDelegate
 // ユーザが Image View をタップしたら、フォトライブラリから画像を選択できるようにする
-extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension MealDetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // ユーザが画像の選択をキャンセルした場合に呼ばれる
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // ユーザーがキャンセルした場合はピッカーを閉じる。(Dismiss the picker if the user canceled.)
