@@ -6,13 +6,23 @@
 //
 
 import UIKit
+import os.log
 
 class MealDetailViewController: UIViewController {
+    
     // MARK: Properties
     @IBOutlet weak var nameTextField: UITextField!
     // @IBOutlet weak var mealNameLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    /*
+     This value is either passed by `MealTableViewController` in `prepare(for:sender:)`
+     or constructed as part of adding a new meal.
+     この値は、`prepare(for:sender:)` の `MealTableViewController` によって渡されるか、新しい食事の追加時に構築されます。
+     */
+    var meal: Meal? // Optional型なので?を付けている
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +31,26 @@ class MealDetailViewController: UIViewController {
         // Handle the text field's user input through delegate callbacks.
         nameTextField.delegate = self
     }
-
+    
+    // MARK: Navigation
+    // (このメソッドを使用すると、ビュー コントローラが表示される前に構成できます。)This method lets you configure a view controller befor it's presented.
+    // オーバーライドしたメソッドは、そのままではスーパークラスの実装を引き継ぎません。
+    // スーパークラスの挙動に追加してカスタムしたい場合はスーパークラスのメソッドを呼ぶことで スーパークラスの実装をサブクラスでも利用できるようになります。
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        // 保存ボタンが押されたときにのみ、宛先ビュー コントローラーを構成します。(Configure the destination view controller only when the save button is pressed.)
+        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+            return
+        }
+        let name = nameTextField.text ?? "" // nil結合演算子(??): オプショナル型が nil でなければ左側の値をアンラップしたものを、 nil ならば右側の値を返すもの
+        let photo = photoImageView.image
+        let rating = ratingControl.rating
+        
+        // unwind segue（戻る遷移）が実行されたあと、MealTableViewController に渡す meal オブジェクトを設定する(Set the meal to be passed to MealTableViewController after the unwind seque.)
+        meal = Meal(name: name, photo: photo, rating: rating)
+    }
 
     // MARK: Actions
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
@@ -52,10 +81,25 @@ extension MealDetailViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-        
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
+        updateButtonState()
+        navigationItem.title = textField.text
+    }
+        
+    func textFieldDidBeginEditing(_ textField: UITextField) { // Text Field が編集され始めた時またはキーボードが出現した場合に呼ばれるメソッド
         // ラベル(Meal Name)のテキストをテキストフィールドに入力されたテキストに変換
         // mealNameLabel.text = textField.text
+        
+        // 編集中は保存ボタンを無効にする。(Disable the Save button while editing.)
+        saveButton.isEnabled = false
+    }
+    
+    // MARK: Private Methods
+    private func updateButtonState() {
+        // テキスト フィールドが空の場合は保存ボタンを無効にする。(Disable the Save button if the text field is empty.)
+        let text = nameTextField.text ?? ""
+        saveButton.isEnabled = !text.isEmpty
     }
 }
 

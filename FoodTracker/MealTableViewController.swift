@@ -109,6 +109,17 @@ class MealTableViewController: UITableViewController {
     }
     */
     
+    // MARK: Actions
+    // MealViewController で作成された新しい Meal オブジェクトを MealTableViewController に追加し反映する
+    @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? MealDetailViewController, let meal = sourceViewController.meal {
+            let newIndexPath = IndexPath(row: meals.count, section: 0)
+            
+            meals.append(meal)
+            tableView.insertRows(at: [newIndexPath], with: .automatic) // TableViewに行を追加する
+        }
+    }
+    
     // MARK: Private Methods
     private func loadSampleMeals() {
         let photo1 = #imageLiteral(resourceName: "meal1")

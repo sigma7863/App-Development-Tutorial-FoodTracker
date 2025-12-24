@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ufM-ys-ngf">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <accessibilityOverrides/>
     <dependencies>
@@ -127,15 +127,21 @@
                     </view>
                     <navigationItem key="navigationItem" title="New Meal" id="vO9-y6-DmF">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="lyu-0X-cFl"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="qIC-pZ-C5M"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="qIC-pZ-C5M">
+                            <connections>
+                                <segue destination="2uZ-V7-rcf" kind="unwind" unwindAction="unwindToMealListWithSender:" id="1A0-UE-caj"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="nameTextField" destination="5JW-vH-qZw" id="QvK-qg-7HO"/>
                         <outlet property="photoImageView" destination="FLJ-y5-yvH" id="IV0-kt-auk"/>
                         <outlet property="ratingControl" destination="YAJ-dn-uqp" id="tI3-x2-XVH"/>
+                        <outlet property="saveButton" destination="qIC-pZ-C5M" id="GMa-Q0-Tfa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="2uZ-V7-rcf" userLabel="Exit" sceneMemberID="exit"/>
                 <tapGestureRecognizer id="v7n-qb-wfU">
                     <connections>
                         <action selector="selectImageFromPhotoLibrary:" destination="BYZ-38-t0r" id="qGD-Io-QPu"/>
