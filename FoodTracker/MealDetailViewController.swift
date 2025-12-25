@@ -30,9 +30,37 @@ class MealDetailViewController: UIViewController {
         
         // Handle the text field's user input through delegate callbacks.
         nameTextField.delegate = self
+        
+        // ViewController のロード時に meal が nil でなければあらかじめ各オブジェクトに値を入れておきます。
+        // nil でない場合は ShowDetail で遷移した場合で、 nil の場合は AddItem で遷移した場合です。
+        // このように、この if let でどちらの場合も正しい表示にできました。
+        // Set up views if editing an exsisting Meal.
+        if let meal = meal {
+            navigationItem.title = meal.name
+            nameTextField.text = meal.name
+            photoImageView.image = meal.photo
+            ratingControl.rating = meal.rating
+        }
+        
+        // テキスト フィールドに有効な食事名が入力されている場合にのみ、保存ボタンを有効にします。(Enable the Save button only if the text text field has a valid Meal name.)
+        updateButtonState()
     }
     
     // MARK: Navigation
+    // キャンセル(×ボタン)を押して写真を追加するタブを閉じる
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        // プレゼンテーションのスタイル (モデルまたはプッシュ プレゼンテーション) に応じて、このビュー コントローラーを 2 つの異なる方法で閉じる必要があります。(Depending on style of presentation (model or push presentation), this view controller needs to be dismissed in two different ways.)
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController // 現在どのような方法（モーダルかプッシュか）で表示されているのかを判定するのに使用する定数
+        
+        if isPresentingInAddMealMode {
+            dismiss(animated: true, completion: nil) // dismiss(animated:completion:) メソッドはモーダルを閉じるメソッド, 引数には閉じる際にアニメーションをするかどうか、閉じ終わった後に行う処理を指定
+        } else if let owingNavigationController = navigationController {
+            owingNavigationController.popViewController(animated: true)
+        } else { // この else 節はなくても問題はないですが、今後変更があった際に fatalError となり未実装の部分を 把握できるのであったほうが保守性が上がります。
+            fatalError("The MealDatailViewController is not inside a navigation controller.") // MealDetailViewController はナビゲーション コントローラー内にありません。
+        }
+        
+    }
     // (このメソッドを使用すると、ビュー コントローラが表示される前に構成できます。)This method lets you configure a view controller befor it's presented.
     // オーバーライドしたメソッドは、そのままではスーパークラスの実装を引き継ぎません。
     // スーパークラスの挙動に追加してカスタムしたい場合はスーパークラスのメソッドを呼ぶことで スーパークラスの実装をサブクラスでも利用できるようになります。

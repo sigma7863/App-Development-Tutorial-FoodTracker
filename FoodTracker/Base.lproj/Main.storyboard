@@ -54,6 +54,7 @@
                                     <outlet property="nameLabel" destination="ehz-ZP-2bK" id="Hjz-LA-vhv"/>
                                     <outlet property="photoImageView" destination="dCf-Pg-c9r" id="Tvn-j5-b3i"/>
                                     <outlet property="ratingControl" destination="HaF-fV-LBd" id="B19-tm-XvR"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="ShowDetail" id="snS-PC-h7a"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -79,7 +80,7 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MealDetailViewController" customModule="FoodTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="793"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="whA-5u-jbL">
@@ -184,9 +185,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="33O-Pt-o5Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2609.9236641221373" y="55.633802816901408"/>
+            <point key="canvasLocation" x="2592" y="450"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="snS-PC-h7a"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="defaultPhoto" width="540" height="540"/>
         <systemColor name="systemBackgroundColor">

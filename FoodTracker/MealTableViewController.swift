@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import os.log
 
 class MealTableViewController: UITableViewController {
     // MARK: Properties
@@ -99,24 +100,65 @@ class MealTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        super.prepare(for: segue, sender: sender)
+        
+        print("""
+        ---- prepare(for:) ----
+        identifier: \(String(describing: segue.identifier))
+        destination: \(type(of: segue.destination))
+        sender: \(String(describing: sender))
+        -----------------------
+        """)
+
+        
+        // segue.identifier の型は Optional<String> で nil になりえるが
+        // 今回 nil の場合は想定していないので nil 結合演算子により nil の場合は空文字に変換して String 型を switch 文に渡している
+        switch segue.identifier ?? "" {
+            case "AddItem":
+                os_log("Adding a new meal.", log: .default, type: .debug)
+            case "ShowDetail":
+                guard let mealDetailViewController = segue.destination as? MealDetailViewController else {
+                    fatalError("Unexpected destination: \(segue.destination)") // 予期せぬ宛先:
+                }
+                
+                guard let selectedMealCell = sender as? MealTableViewCell else {
+                    fatalError("Unexpected sender: \(String(describing: sender))") // 予期せぬ送信者:
+                }
+            
+                guard let indexPath = tableView.indexPath(for: selectedMealCell) else {
+                    fatalError("The selected cell is not being displayed by the table") // 選択したセルはテーブルに表示されません
+                }
+            
+                let selectedMeal = meals[indexPath.row]
+                mealDetailViewController.meal = selectedMeal
+            
+            default:
+                fatalError("Unexpected Seque Identifier; \(String(describing: segue.identifier))")
+        }
     }
-    */
     
     // MARK: Actions
     // MealViewController で作成された新しい Meal オブジェクトを MealTableViewController に追加し反映する
     @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? MealDetailViewController, let meal = sourceViewController.meal {
-            let newIndexPath = IndexPath(row: meals.count, section: 0)
-            
-            meals.append(meal)
-            tableView.insertRows(at: [newIndexPath], with: .automatic) // TableViewに行を追加する
+            if let selectedIndexPath = tableView.indexPathForSelectedRow { // 遷移が新規追加か編集かを判定する
+                // 既存のmealを更新する。(Update an exsisting meal.)
+                meals[selectedIndexPath.row] = meal // 選択された位置のデータを更新
+                tableView.reloadRows(at: [selectedIndexPath], with: .none) // Table Viewの表示を更新
+            } else {
+                // Add a new meal.
+                let newIndexPath = IndexPath(row: meals.count, section: 0)
+                
+                meals.append(meal)
+                tableView.insertRows(at: [newIndexPath], with: .automatic) // TableViewに行を追加する
+            }
         }
     }
     
