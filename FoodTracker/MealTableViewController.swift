@@ -116,13 +116,13 @@ class MealTableViewController: UITableViewController {
         
         super.prepare(for: segue, sender: sender)
         
-        print("""
-        ---- prepare(for:) ----
-        identifier: \(String(describing: segue.identifier))
-        destination: \(type(of: segue.destination))
-        sender: \(String(describing: sender))
-        -----------------------
-        """)
+        // print("""
+        // --- prepare(for:) ----
+        // identifier: \(String(describing: segue.identifier))
+        // destination: \(type(of: segue.destination))
+        // sender: \(String(describing: sender))
+        //  -----------------------
+        //  """)
 
         // segue.identifier の型は Optional<String> で nil になりえるが
         // 今回 nil の場合は想定していないので nil 結合演算子により nil の場合は空文字に変換して String 型を switch 文に渡している
@@ -145,7 +145,8 @@ class MealTableViewController: UITableViewController {
                 let selectedMeal = meals[indexPath.row]
                 mealDetailViewController.meal = selectedMeal
             default:
-                fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+                break
+                // fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
 
